@@ -2,13 +2,15 @@
 using System.Collections;
 using System;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour
+{
 
     private int moveSpeed = 10;
 
-    private PlayerState currentForm; 
+    private PlayerState currentForm;
 
-    enum PlayerState {
+    enum PlayerState
+    {
         Normal,
         Electric,
         Ghost
@@ -19,7 +21,8 @@ public class Player : MonoBehaviour {
         if (currentForm == PlayerState.Normal)
         {
             currentForm = PlayerState.Electric;
-        }else
+        }
+        else
         {
             currentForm = PlayerState.Normal;
         }
@@ -52,17 +55,20 @@ public class Player : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.tag == "GhostWall") {
-            if (currentForm == PlayerState.Ghost) {
-                coll.collider.enabled = false; 
+        if (coll.gameObject.tag == "GhostWall")
+        {
+            if (currentForm == PlayerState.Ghost)
+            {
+                coll.collider.enabled = false;
             }
         }
     }
 
     void OnCollisionExit2D(Collision2D coll)
     {
-        if (coll.gameObject.tag == "GhostWall") {
-            coll.collider.enabled = true; 
+        if (coll.gameObject.tag == "GhostWall")
+        {
+            coll.collider.enabled = true;
         }
     }
 
@@ -87,7 +93,7 @@ public class Player : MonoBehaviour {
     {
 
         if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow)) && isGrounded())
-            {
+        {
             //jump
             jump(0.0f, 3.0f);
         }
@@ -102,7 +108,7 @@ public class Player : MonoBehaviour {
             move(-moveSpeed, 0);
         }
         else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-            {
+        {
             //move right
             move(moveSpeed, 0);
         }
@@ -129,9 +135,7 @@ public class Player : MonoBehaviour {
     }
 
 
-    /*
-     * Unity variables. Must be public, class scope, must not be set.
-     * /
+    //Unity variables. Must be public, class scope, must not be set.
     public Transform grounded;
     public float radius;
     public LayerMask walkable;
