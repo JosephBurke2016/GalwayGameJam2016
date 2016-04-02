@@ -136,7 +136,7 @@ public class Player : MonoBehaviour
 
     private void move(float x, float y)
     {
-        transform.position += new Vector3(x * Time.deltaTime, y * Time.deltaTime, 0.0f);
+        GetComponent<Rigidbody2D>().velocity += new Vector2(x * Time.deltaTime, y * Time.deltaTime);
     }
 
     IEnumerator DeactivateGhostBlock(Collider2D collider)
