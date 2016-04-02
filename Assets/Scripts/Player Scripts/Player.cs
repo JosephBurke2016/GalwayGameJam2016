@@ -2,19 +2,17 @@
 using System.Collections;
 using System;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour
+{
 
     private int moveSpeed = 10;
-    public Transform grounded;
-    public float radius;
-    public LayerMask walkable;
-    public bool isGrounded = false;
+    
     public bool collideWithGhostAble = false;
-    public Vector2 jumpVector;
 
-    private PlayerState currentForm; 
+    private PlayerState currentForm;
 
-    enum PlayerState {
+    enum PlayerState
+    {
         Normal,
         Electric,
         Ghost
@@ -28,6 +26,7 @@ public class Player : MonoBehaviour {
 
         if (targetForm == PlayerState.Normal) {
             currentForm = PlayerState.Normal;
+
         }
        
     }
@@ -42,7 +41,6 @@ public class Player : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        isGrounded = Physics2D.OverlapCircle(grounded.transform.position, radius, walkable);
 
         if (currentForm == PlayerState.Normal || currentForm == PlayerState.Ghost)
         {
@@ -95,11 +93,10 @@ public class Player : MonoBehaviour {
     private void checkPlayerMovement()
     {
 
-        if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow) && isGrounded == true)
-            {
+        if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow)) && isGrounded())
+        {
             //jump
-            GetComponent<Rigidbody2D>().AddForce(jumpVector, ForceMode2D.Impulse);
-            jumpVector.y = 0.5f;
+            jump(0.0f, 3.0f);
         }
         else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
@@ -112,7 +109,7 @@ public class Player : MonoBehaviour {
             move(-moveSpeed, 0);
         }
         else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-            {
+        {
             //move right
             move(moveSpeed, 0);
         }
@@ -121,6 +118,15 @@ public class Player : MonoBehaviour {
             changeForm(PlayerState.Ghost);
         }
 
+    }
+
+
+    public Vector2 jumpVector;
+    private void jump(float x, float y)
+    {
+        GetComponent<Rigidbody2D>().AddForce(jumpVector, ForceMode2D.Impulse);
+        jumpVector.x = x;
+        jumpVector.y = y;
     }
 
     private void move(float x, float y, float z)
@@ -149,6 +155,15 @@ public class Player : MonoBehaviour {
         collideWithGhostAble = true; 
         yield return new WaitForSeconds(0.25f);
         collideWithGhostAble = false; 
+    }
+
+    //Unity variables. Must be public, class scope, must not be set.
+    public Transform grounded;
+    public float radius;
+    public LayerMask walkable;
+    private bool isGrounded()
+    {
+        return Physics2D.OverlapCircle(grounded.transform.position, radius, walkable);
     }
 
 }
