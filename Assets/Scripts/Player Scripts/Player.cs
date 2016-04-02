@@ -84,8 +84,13 @@ public class Player : MonoBehaviour
 
     private void updatePlayer()
     {
+
+
         checkPlayerMovement();
         updateCheckpoint();
+
+        if (currentForm == PlayerState.Ghost) 
+            anim.SetInteger("State", 4); 
     }
 
     private void updateEnergy()
@@ -101,10 +106,20 @@ public class Player : MonoBehaviour
 
     private void checkPlayerMovement()
     {
+
         if (isGrounded())
         {
             resetVelocity();
         }
+
+
+        if (Input.GetKey(KeyCode.Return)) {
+            changeForm(PlayerState.Ghost);
+            return;
+        }
+
+         if (Input.GetKeyUp(KeyCode.Return))
+            changeForm(PlayerState.Normal);
 
         if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isGrounded())
         {
@@ -136,10 +151,6 @@ public class Player : MonoBehaviour
         else
             Idle();
 
-        if (Input.GetKey(KeyCode.Return)) {
-            anim.SetInteger("State", 4);
-            changeForm(PlayerState.Ghost);
-        }
 
     }
 
