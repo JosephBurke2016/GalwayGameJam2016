@@ -93,7 +93,7 @@ public class Player : MonoBehaviour
     private void checkPlayerMovement()
     {
 
-        if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow)) && isGrounded())
+        if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isGrounded())
         {
             //jump
             jump(0.0f, 3.0f);
