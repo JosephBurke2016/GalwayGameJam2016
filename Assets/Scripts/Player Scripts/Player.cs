@@ -10,7 +10,8 @@ public class Player : MonoBehaviour {
 
     enum PlayerState {
         Normal,
-        Electric
+        Electric,
+        Ghost
     };
 
     private void changeForm()
@@ -47,6 +48,22 @@ public class Player : MonoBehaviour {
             throw new EntryPointNotFoundException();
         }
 
+    }
+
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        if (coll.gameObject.tag == "GhostWall") {
+            if (currentForm == PlayerState.Ghost) {
+                coll.collider.enabled = false; 
+            }
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D coll)
+    {
+        if (coll.gameObject.tag == "GhostWall") {
+            coll.collider.enabled = true; 
+        }
     }
 
     private void updatePlayer()
