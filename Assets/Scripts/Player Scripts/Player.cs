@@ -38,7 +38,7 @@ public class Player : MonoBehaviour {
         {
             updatePlayer();
         }
-        else if (currentForm == PlayerState.Normal)
+        else if (currentForm == PlayerState.Electric)
         {
             updateEnergy();
         }
@@ -68,19 +68,38 @@ public class Player : MonoBehaviour {
 
     private void checkPlayerMovement()
     {
-        if (currentForm == PlayerState.Normal) {
-            if (Input.GetKey(KeyCode.D))
+
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
             {
-                moveRight();
-            }
+            //move up
+            move(0, moveSpeed);
         }
+        else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        {
+            //move down
+            move(0, -moveSpeed);
+        }
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        {
+            //move left
+            move(-moveSpeed, 0);
+        }
+        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+            {
+            //move right
+            move(moveSpeed, 0);
+        }
+
     }
 
-
-
-    private void moveRight()
+    private void move(float x, float y, float z)
     {
-        transform.position += new Vector3(moveSpeed * Time.deltaTime, 0.0f, 0.0f);
+        transform.position += new Vector3(x * Time.deltaTime, y * Time.deltaTime, z * Time.deltaTime);
+    }
+
+    private void move(float x, float y)
+    {
+        transform.position += new Vector3(x * Time.deltaTime, y * Time.deltaTime, 0.0f);
     }
 
 }
