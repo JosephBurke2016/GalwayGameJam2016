@@ -6,14 +6,13 @@ public class Player : MonoBehaviour
 {
 
     private int moveSpeed = 20;
-    public Vector2 jumpVector;
-    Animator anim;
+
+    private Vector2 jumpVector;
+    private Animator anim;
+    private bool collideWithGhostAble = false;
 
     private float safeX;
     private float safeY;
-    
-    public bool collideWithGhostAble = false;
-
     private PlayerState currentForm;
 
     enum PlayerState
@@ -243,10 +242,10 @@ public class Player : MonoBehaviour
 
     //Unity variables. Must be public, class scope, must not be set.
     public Transform grounded;
-    public float radius;
     public LayerMask walkable;
     private bool isGrounded()
     {
+        float radius = 0.2f;
         return Physics2D.OverlapCircle(grounded.transform.position, radius, walkable);
     }
 
