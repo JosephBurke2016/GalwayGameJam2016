@@ -113,7 +113,7 @@ public class Player : MonoBehaviour
         {
             //jump
             anim.SetInteger("State", 3);
-            jump(0.0f, 3.0f);
+            jump(0.0f, 5.0f);
         }
         else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
@@ -169,7 +169,7 @@ public class Player : MonoBehaviour
             setSafePoint();
         }
 
-        if (transform.position.y < -100)
+        if (transform.position.y < -25)
         {
             loadSafePoint();
         }
