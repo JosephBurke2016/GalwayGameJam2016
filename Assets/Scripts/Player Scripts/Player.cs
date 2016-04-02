@@ -66,6 +66,8 @@ public class Player : MonoBehaviour
           
             if (currentForm == PlayerState.Ghost) {
                 StartCoroutine(DeactivateGhostBlock(coll.collider));          
+            } else {
+                 setVelocity(0.0f, -15);
             }
         }
     }
