@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     private float safeY;
     private PlayerState currentForm;
     private bool inAir = false;
+    private bool falling = false;
+    private float jumpPoint = 0.0f;
 
     enum PlayerState
     {
@@ -87,8 +89,7 @@ public class Player : MonoBehaviour
 
     private void updatePlayer()
     {
-
-
+        
         checkPlayerMovement();
         updateCheckpoint();
 
@@ -208,6 +209,11 @@ public class Player : MonoBehaviour
             setSafePoint();
         }
 
+        if(transform.position.y < -3)
+        {
+            falling = true;
+        }
+
         if (transform.position.y < -25)
         {
             loadSafePoint();
@@ -246,6 +252,8 @@ public class Player : MonoBehaviour
         GetComponent<Rigidbody2D>().AddForce(jumpVector, ForceMode2D.Impulse);
         jumpVector.x = x;
         jumpVector.y = y;
+
+        jumpPoint = transform.position.y;
     }
 
     private void move(float x, float y, float z)
