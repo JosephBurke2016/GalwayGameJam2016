@@ -154,6 +154,7 @@ public class Player : MonoBehaviour
             {
                 Idle();
                 inAir = false;
+                anim.SetInteger("State", 5);
             }
         }
 
