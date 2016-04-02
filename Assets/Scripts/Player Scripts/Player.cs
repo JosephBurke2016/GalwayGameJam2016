@@ -121,6 +121,12 @@ public class Player : MonoBehaviour
         {
             return;
         }
+
+      
+        if (falling)
+        {
+            print("falling "+transform.position.y);
+        }
         
 
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
@@ -155,10 +161,13 @@ public class Player : MonoBehaviour
             {
                 Idle();
                 inAir = false;
-                anim.SetInteger("State", 5);
             }
         }
+        
+        //what are you afraid of, hard work?
+        //level editors, world generator UI
 
+        //fix paralex
 
 
         if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isGrounded())
@@ -205,7 +214,7 @@ public class Player : MonoBehaviour
     
     private void updateCheckpoint()
     {
-        if (isGrounded())
+        if (isGrounded() && currentForm == PlayerState.Normal)
         {
             resetPlayerVelocity();
             setSafePoint();
@@ -232,6 +241,8 @@ public class Player : MonoBehaviour
     {
         setVelocity(0.0f, 0.0f);
         transform.position = new Vector3(safeX, safeY, 0.0f);
+        falling = false;
+        inAir = false;
     }
 
     private void resetPlayerVelocity()
