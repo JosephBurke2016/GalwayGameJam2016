@@ -9,11 +9,11 @@ public class Player : MonoBehaviour
 
     private Vector2 jumpVector;
     private Animator anim;
-    private bool collideWithGhostAble = false;
 
     private float safeX;
     private float safeY;
     private PlayerState currentForm;
+    private bool inAir = false;
 
     enum PlayerState
     {
@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
 
     private void changeForm(PlayerState targetForm)
     {
-        if (targetForm == PlayerState.Ghost && collideWithGhostAble) {
+        if (targetForm == PlayerState.Ghost) {
             currentForm = PlayerState.Ghost;
         }
 
@@ -40,7 +40,6 @@ public class Player : MonoBehaviour
     {
         currentForm = PlayerState.Normal;
         anim = GetComponent<Animator>();
-        collideWithGhostAble = false;
 
     }
 
@@ -67,9 +66,10 @@ public class Player : MonoBehaviour
     {
         if (coll.gameObject.tag == "GhostWall") {
           
-            StartCoroutine(EnableAllowGhosting()); 
             if (currentForm == PlayerState.Ghost) {
                 StartCoroutine(DeactivateGhostBlock(coll.collider));          
+            } else {
+                 setVelocity(0.0f, -15);
             }
         }
     }
@@ -88,8 +88,13 @@ public class Player : MonoBehaviour
 
     private void updatePlayer()
     {
+
+
         checkPlayerMovement();
         updateCheckpoint();
+
+        if (currentForm == PlayerState.Ghost) 
+            anim.SetInteger("State", 4); 
     }
 
     private void updateEnergy()
@@ -105,46 +110,80 @@ public class Player : MonoBehaviour
 
     private void checkPlayerMovement()
     {
+
         if (isGrounded())
         {
             resetVelocity();
         }
 
-        if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isGrounded())
+        if (ghostCheck())
         {
-            //jump
-            anim.SetInteger("State", 3);
-            jump(0.0f, 5.0f);
+            return;
         }
-        else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        
+
+        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
             //move down
             move(0, -moveSpeed);
         }
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             //move left
             transform.localRotation = Quaternion.Euler(0, 180, 0);
-            anim.SetInteger("State", 2);
+            if (!inAir)
+            {
+                anim.SetInteger("State", 2);
+            }
             move(-moveSpeed, 0);
-
 
         }
         else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             //move right
             transform.localRotation = Quaternion.Euler(0, 0, 0);
-            anim.SetInteger("State", 1);
+            if (!inAir)
+            {
+                anim.SetInteger("State", 1);
+            }
             move(moveSpeed, 0);
         }
         else
-            Idle();
-
-        if (Input.GetKey(KeyCode.Return)) {
-            anim.SetInteger("State", 4);
-            changeForm(PlayerState.Ghost);
+        {
+            if (isGrounded())
+            {
+                Idle();
+                inAir = false;
+            }
         }
 
+
+
+        if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isGrounded())
+        {
+            //jump
+            inAir = false;
+            //disabled air animation for now
+            //inAir = true;
+            anim.SetInteger("State", 3);
+            jump(0.0f, 5.0f);
+        }
+
+    }
+
+    private bool ghostCheck()
+    {
+        if (Input.GetKey(KeyCode.Return))
+        {
+            changeForm(PlayerState.Ghost);
+            return true;
+        }
+        else if (Input.GetKeyUp(KeyCode.Return))
+        {
+            changeForm(PlayerState.Normal);
+            return false;
+        }
+        return false;
     }
 
     private void resetVelocity()
@@ -232,16 +271,8 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         collider.enabled = true; 
         print(collider.enabled);
-        changeForm(PlayerState.Normal);
     }
 
-    IEnumerator EnableAllowGhosting()
-    {
-      //  print(Time.time);
-        collideWithGhostAble = true; 
-        yield return new WaitForSeconds(0.25f);
-        collideWithGhostAble = false; 
-    }
 
     //Unity variables. Must be public, class scope, must not be set.
     public Transform grounded;
