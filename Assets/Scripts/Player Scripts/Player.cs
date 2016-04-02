@@ -9,7 +9,6 @@ public class Player : MonoBehaviour
 
     private Vector2 jumpVector;
     private Animator anim;
-    private bool collideWithGhostAble = false;
 
     private float safeX;
     private float safeY;
@@ -24,7 +23,7 @@ public class Player : MonoBehaviour
 
     private void changeForm(PlayerState targetForm)
     {
-        if (targetForm == PlayerState.Ghost && collideWithGhostAble) {
+        if (targetForm == PlayerState.Ghost) {
             currentForm = PlayerState.Ghost;
         }
 
@@ -40,7 +39,6 @@ public class Player : MonoBehaviour
     {
         currentForm = PlayerState.Normal;
         anim = GetComponent<Animator>();
-        collideWithGhostAble = false;
     }
 
     // Update is called once per frame
@@ -66,7 +64,6 @@ public class Player : MonoBehaviour
     {
         if (coll.gameObject.tag == "GhostWall") {
           
-            StartCoroutine(EnableAllowGhosting()); 
             if (currentForm == PlayerState.Ghost) {
                 StartCoroutine(DeactivateGhostBlock(coll.collider));          
             }
@@ -231,16 +228,8 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         collider.enabled = true; 
         print(collider.enabled);
-        changeForm(PlayerState.Normal);
     }
 
-    IEnumerator EnableAllowGhosting()
-    {
-      //  print(Time.time);
-        collideWithGhostAble = true; 
-        yield return new WaitForSeconds(0.25f);
-        collideWithGhostAble = false; 
-    }
 
     //Unity variables. Must be public, class scope, must not be set.
     public Transform grounded;
