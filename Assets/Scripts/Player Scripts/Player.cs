@@ -201,7 +201,6 @@ public class Player : MonoBehaviour
     private bool isGrounded()
     {
         float radius = 0.2f;
-        Transform grounded = gameObject.Find("Grounded") as Transform;
         return Physics2D.OverlapCircle(grounded.transform.position, radius, walkable);
     }
 
