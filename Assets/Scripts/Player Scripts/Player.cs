@@ -115,7 +115,10 @@ public class Player : MonoBehaviour
             resetVelocity();
         }
 
-        ghostCheck();
+        if (ghostCheck())
+        {
+            return;
+        }
         
 
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
@@ -167,16 +170,19 @@ public class Player : MonoBehaviour
 
     }
 
-    private void ghostCheck()
+    private bool ghostCheck()
     {
         if (Input.GetKey(KeyCode.Return))
         {
             changeForm(PlayerState.Ghost);
+            return true;
         }
         else if (Input.GetKeyUp(KeyCode.Return))
         {
             changeForm(PlayerState.Normal);
+            return false;
         }
+        return false;
     }
 
     private void resetVelocity()
