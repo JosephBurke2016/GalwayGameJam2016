@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Player : MonoBehaviour {
 
     //private Vector2 move;
     private int moveSpeed = 10;
 
-    private PlayerState State; 
+    private PlayerState currentForm; 
 
     enum PlayerState {
         Normal,
@@ -15,30 +16,59 @@ public class Player : MonoBehaviour {
 
     private void changeForm()
     {
-        if (State == PlayerState.Normal)
+        if (currentForm == PlayerState.Normal)
         {
-            State = PlayerState.Electric;
+            currentForm = PlayerState.Electric;
         }else
         {
-            State = PlayerState.Normal;
+            currentForm = PlayerState.Normal;
         }
     }
 
     // Use this for initialization
     void Start()
     {
-        State = PlayerState.Normal;
+        currentForm = PlayerState.Normal;
     }
 
     // Update is called once per frame
     void Update()
     {
-        checkMovement();
+        if (currentForm == PlayerState.Normal)
+        {
+            updatePlayer();
+        }
+        else if (currentForm == PlayerState.Normal)
+        {
+            updateEnergy();
+        }
+        else
+        {
+            throw new EntryPointNotFoundException();
+        }
+
     }
 
-    private void checkMovement()
+    private void updatePlayer()
     {
-        if (State == PlayerState.Normal) {
+        checkPlayerMovement();
+    }
+
+    private void updateEnergy()
+    {
+        checkEnergyMovement();
+    }
+
+
+
+    private void checkEnergyMovement()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void checkPlayerMovement()
+    {
+        if (currentForm == PlayerState.Normal) {
             if (Input.GetKey(KeyCode.D))
             {
                 moveRight();
