@@ -6,10 +6,17 @@ public class Player : MonoBehaviour {
     //private Vector2 move;
     private int moveSpeed = 10;
 
+    private PlayerState State; 
+
+    enum PlayerState {
+        Normal,
+        Electric
+    }
+
     // Use this for initialization
     void Start()
     {
-
+        State = PlayerState.Normal;
     }
 
     // Update is called once per frame
@@ -20,9 +27,11 @@ public class Player : MonoBehaviour {
 
     private void checkMovement()
     {
-        if (Input.GetKey(KeyCode.D))
-        {
-            moveRight();
+        if (State == PlayerState.Normal) {
+            if (Input.GetKey(KeyCode.D))
+            {
+                moveRight();
+            }
         }
     }
 
