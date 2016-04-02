@@ -8,6 +8,9 @@ public class Player : MonoBehaviour
     private int moveSpeed = 20;
     public Vector2 jumpVector;
     Animator anim;
+
+    private float safeX;
+    private float safeY;
     
     public bool collideWithGhostAble = false;
 
@@ -86,6 +89,7 @@ public class Player : MonoBehaviour
     private void updatePlayer()
     {
         checkPlayerMovement();
+        updateCheckpoint();
     }
 
     private void updateEnergy()
@@ -101,10 +105,6 @@ public class Player : MonoBehaviour
 
     private void checkPlayerMovement()
     {
-        if (isGrounded())
-        {
-            resetVelocity();
-        }
 
         if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isGrounded())
         {
@@ -139,6 +139,33 @@ public class Player : MonoBehaviour
             changeForm(PlayerState.Ghost);
         }
 
+    }
+
+
+    private void updateCheckpoint()
+    {
+        if (isGrounded())
+        {
+            resetVelocity();
+            setSafePoint();
+        }
+
+        if (transform.position.y < -100)
+        {
+            loadSafePoint();
+        }
+    }
+
+    private void setSafePoint()
+    {
+        safeX = transform.position.x;
+        safeY = transform.position.y;
+    }
+
+    private void loadSafePoint()
+    {
+        setVelocity(0.0f, 0.0f);
+        transform.position = new Vector3(safeX, safeY, 0.0f);
     }
 
     private void resetVelocity()
