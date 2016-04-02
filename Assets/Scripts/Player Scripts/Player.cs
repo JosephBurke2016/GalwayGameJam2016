@@ -11,6 +11,17 @@ public class Player : MonoBehaviour {
     enum PlayerState {
         Normal,
         Electric
+    };
+
+    private void changeForm()
+    {
+        if (State == PlayerState.Normal)
+        {
+            State = PlayerState.Electric;
+        }else
+        {
+            State = PlayerState.Normal;
+        }
     }
 
     // Use this for initialization
