@@ -16,10 +16,10 @@ TagManager:
   - 
   - 
   - Walkable
-  - 
-  - 
-  - 
-  - 
+  - Layer1
+  - Layer2
+  - Layer3
+  - Layer0
   - 
   - 
   - 

@@ -10,6 +10,7 @@ public class Player : MonoBehaviour {
     public LayerMask walkable;
     public bool isGrounded = false;
     public Vector2 jumpVector;
+    Animator anim;
 
     private PlayerState currentForm; 
 
@@ -33,6 +34,7 @@ public class Player : MonoBehaviour {
     void Start()
     {
         currentForm = PlayerState.Normal;
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -89,13 +91,21 @@ public class Player : MonoBehaviour {
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             //move left
+            transform.localRotation = Quaternion.Euler(0, 180, 0);
+            anim.SetInteger("State", 2);
             move(-moveSpeed, 0);
+
+
         }
         else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
             {
             //move right
+            transform.localRotation = Quaternion.Euler(0, 0, 0);
+            anim.SetInteger("State", 1);
             move(moveSpeed, 0);
         }
+        else
+            Idle();
 
     }
 
@@ -107,6 +117,11 @@ public class Player : MonoBehaviour {
     private void move(float x, float y)
     {
         transform.position += new Vector3(x * Time.deltaTime, y * Time.deltaTime, 0.0f);
+    }
+
+    private void Idle()
+    {
+        anim.SetInteger("State", 0);
     }
 
 }
