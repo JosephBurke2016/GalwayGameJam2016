@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: cfe42cf88d1132f47a055d0bbeb82ab9
-timeCreated: 1459593930
+timeCreated: 1459597704
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -61,7 +61,7 @@ TextureImporter:
     - name: Girl_0
       rect:
         serializedVersion: 2
-        x: 1
+        x: 0
         y: 0
         width: 19
         height: 38
@@ -83,7 +83,7 @@ TextureImporter:
     - name: Girl_2
       rect:
         serializedVersion: 2
-        x: 41
+        x: 40
         y: 0
         width: 19
         height: 38
