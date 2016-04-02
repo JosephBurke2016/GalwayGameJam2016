@@ -440,7 +440,7 @@ GameObject:
   - 222: {fileID: 386698673}
   - 114: {fileID: 386698672}
   m_Layer: 5
-  m_Name: Text
+  m_Name: NoteText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -610,7 +610,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &550192653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -720,6 +720,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NoteNumber: 0
+  TextCanvas: {fileID: 550192652}
 --- !u!4 &946813932 stripped
 Transform:
   m_PrefabParentObject: {fileID: 424206, guid: d751063bc2bd5834eb0fbe6cbe6bc6fa, type: 2}
