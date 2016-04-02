@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
     public float radius;
     public LayerMask walkable;
     public bool isGrounded = false;
+    public bool collideWithGhostAble = false;
     public Vector2 jumpVector;
 
     private PlayerState currentForm; 
@@ -19,21 +20,23 @@ public class Player : MonoBehaviour {
         Ghost
     };
 
-    private void changeForm()
+    private void changeForm(PlayerState targetForm)
     {
-        if (currentForm == PlayerState.Normal)
-        {
-            currentForm = PlayerState.Electric;
-        }else
-        {
+        if (targetForm == PlayerState.Ghost && collideWithGhostAble) {
+            currentForm = PlayerState.Ghost;
+        }
+
+        if (targetForm == PlayerState.Normal) {
             currentForm = PlayerState.Normal;
         }
+       
     }
 
     // Use this for initialization
     void Start()
     {
         currentForm = PlayerState.Normal;
+        collideWithGhostAble = false;
     }
 
     // Update is called once per frame
@@ -41,7 +44,7 @@ public class Player : MonoBehaviour {
     {
         isGrounded = Physics2D.OverlapCircle(grounded.transform.position, radius, walkable);
 
-        if (currentForm == PlayerState.Normal)
+        if (currentForm == PlayerState.Normal || currentForm == PlayerState.Ghost)
         {
             updatePlayer();
         }
@@ -59,17 +62,17 @@ public class Player : MonoBehaviour {
     void OnCollisionEnter2D(Collision2D coll)
     {
         if (coll.gameObject.tag == "GhostWall") {
+          
+            StartCoroutine(EnableAllowGhosting()); 
             if (currentForm == PlayerState.Ghost) {
-                coll.collider.enabled = false; 
+                StartCoroutine(DeactivateGhostBlock(coll.collider));          
             }
         }
     }
 
     void OnCollisionExit2D(Collision2D coll)
     {
-        if (coll.gameObject.tag == "GhostWall") {
-            coll.collider.enabled = true; 
-        }
+
     }
 
     private void updatePlayer()
@@ -114,6 +117,10 @@ public class Player : MonoBehaviour {
             move(moveSpeed, 0);
         }
 
+        if (Input.GetKey(KeyCode.Return)) {
+            changeForm(PlayerState.Ghost);
+        }
+
     }
 
     private void move(float x, float y, float z)
@@ -124,6 +131,24 @@ public class Player : MonoBehaviour {
     private void move(float x, float y)
     {
         transform.position += new Vector3(x * Time.deltaTime, y * Time.deltaTime, 0.0f);
+    }
+
+    IEnumerator DeactivateGhostBlock(Collider2D collider)
+    {
+      //  print(Time.time);
+        collider.enabled = false; 
+        yield return new WaitForSeconds(0.2f);
+        collider.enabled = true; 
+        print(collider.enabled);
+        changeForm(PlayerState.Normal);
+    }
+
+    IEnumerator EnableAllowGhosting()
+    {
+      //  print(Time.time);
+        collideWithGhostAble = true; 
+        yield return new WaitForSeconds(0.25f);
+        collideWithGhostAble = false; 
     }
 
 }
