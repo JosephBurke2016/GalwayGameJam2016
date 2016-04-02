@@ -73,6 +73,13 @@ public class Player : MonoBehaviour
 
     }
 
+    void OnTriggerEnter2D(Collider2D coll) {
+        if (coll.gameObject.tag == "Note") {
+            Note note = coll.gameObject.GetComponent<Note>();
+            note.Collect();
+        }
+    }
+
     private void updatePlayer()
     {
         checkPlayerMovement();
