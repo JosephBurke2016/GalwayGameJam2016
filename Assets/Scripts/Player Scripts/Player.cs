@@ -5,7 +5,7 @@ using System;
 public class Player : MonoBehaviour
 {
 
-    private int moveSpeed = 20;
+    private int moveSpeed = 30;
 
     private Vector2 jumpVector;
     private Animator anim;
@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
     {
         currentForm = PlayerState.Normal;
         anim = GetComponent<Animator>();
+
     }
 
     // Update is called once per frame
@@ -154,6 +155,7 @@ public class Player : MonoBehaviour
             {
                 Idle();
                 inAir = false;
+                anim.SetInteger("State", 5);
             }
         }
 

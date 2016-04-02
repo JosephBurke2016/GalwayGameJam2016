@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - GhostWall
   - Note
+  - LeftToRight
   layers:
   - Default
   - TransparentFX
