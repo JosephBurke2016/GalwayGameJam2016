@@ -105,11 +105,15 @@ public class Player : MonoBehaviour
 
     private void checkPlayerMovement()
     {
+        if (isGrounded())
+        {
+            resetVelocity();
+        }
 
         if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isGrounded())
         {
             //jump
-            jumpAction(0.0f, 3.0f);
+            jump(0.0f, 3.0f);
         }
         else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
@@ -141,12 +145,26 @@ public class Player : MonoBehaviour
 
     }
 
+    private void resetVelocity()
+    {
+        float xVel = GetComponent<Rigidbody2D>().velocity.x;
+        float yVel = GetComponent<Rigidbody2D>().velocity.y;
 
+        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow))
+        {
+            setVelocity(0.0f, yVel);
+        }
+        if(Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.DownArrow))
+        {
+            setVelocity(xVel, 0.0f);
+        }
+    }
+    
     private void updateCheckpoint()
     {
         if (isGrounded())
         {
-            resetVelocity();
+            resetPlayerVelocity();
             setSafePoint();
         }
 
@@ -168,7 +186,7 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(safeX, safeY, 0.0f);
     }
 
-    private void resetVelocity()
+    private void resetPlayerVelocity()
     {
         float xVel = GetComponent<Rigidbody2D>().velocity.x;
         float yVel = GetComponent<Rigidbody2D>().velocity.y;
@@ -183,8 +201,7 @@ public class Player : MonoBehaviour
         }
     }
 
-
-    private void jumpAction(float x, float y)
+    private void jump(float x, float y)
     {
         GetComponent<Rigidbody2D>().AddForce(jumpVector, ForceMode2D.Impulse);
         jumpVector.x = x;
@@ -205,7 +222,7 @@ public class Player : MonoBehaviour
     {
         GetComponent<Rigidbody2D>().velocity = new Vector2(x, y);
     }
-
+    
     IEnumerator DeactivateGhostBlock(Collider2D collider)
     {
       //  print(Time.time);
