@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     private int noteBlock;
     private bool falling = false;
     private float jumpPoint = 0.0f;
-
+    
     enum PlayerState
     {
         Normal,
