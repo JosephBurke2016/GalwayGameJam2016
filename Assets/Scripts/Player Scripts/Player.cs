@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     private float safeX;
     private float safeY;
     private PlayerState currentForm;
+    private bool inAir = false;
 
     enum PlayerState
     {
@@ -112,46 +113,68 @@ public class Player : MonoBehaviour
             resetVelocity();
         }
 
+        ghostCheck();
+        
 
-        if (Input.GetKey(KeyCode.Return)) {
-            changeForm(PlayerState.Ghost);
-            return;
-        }
-
-         if (Input.GetKeyUp(KeyCode.Return))
-            changeForm(PlayerState.Normal);
-
-        if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isGrounded())
-        {
-            //jump
-            anim.SetInteger("State", 3);
-            jump(0.0f, 5.0f);
-        }
-        else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
             //move down
             move(0, -moveSpeed);
         }
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             //move left
             transform.localRotation = Quaternion.Euler(0, 180, 0);
-            anim.SetInteger("State", 2);
+            if (!inAir)
+            {
+                anim.SetInteger("State", 2);
+            }
             move(-moveSpeed, 0);
-
 
         }
         else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             //move right
             transform.localRotation = Quaternion.Euler(0, 0, 0);
-            anim.SetInteger("State", 1);
+            if (!inAir)
+            {
+                anim.SetInteger("State", 1);
+            }
             move(moveSpeed, 0);
         }
         else
-            Idle();
+        {
+            if (isGrounded())
+            {
+                Idle();
+                inAir = false;
+            }
+        }
 
 
+
+        if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isGrounded())
+        {
+            //jump
+            inAir = false;
+            //disabled air animation for now
+            //inAir = true;
+            anim.SetInteger("State", 3);
+            jump(0.0f, 5.0f);
+        }
+
+    }
+
+    private void ghostCheck()
+    {
+        if (Input.GetKey(KeyCode.Return))
+        {
+            changeForm(PlayerState.Ghost);
+        }
+        else if (Input.GetKeyUp(KeyCode.Return))
+        {
+            changeForm(PlayerState.Normal);
+        }
     }
 
     private void resetVelocity()
