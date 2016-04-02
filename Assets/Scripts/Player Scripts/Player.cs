@@ -2,32 +2,35 @@
 using System.Collections;
 using System;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour
+{
 
     private int moveSpeed = 10;
-    public Transform grounded;
-    public float radius;
-    public LayerMask walkable;
-    public bool isGrounded = false;
     public Vector2 jumpVector;
     Animator anim;
+    
+    public bool collideWithGhostAble = false;
 
-    private PlayerState currentForm; 
+    private PlayerState currentForm;
 
-    enum PlayerState {
+    enum PlayerState
+    {
         Normal,
-        Electric
+        Electric,
+        Ghost
     };
 
-    private void changeForm()
+    private void changeForm(PlayerState targetForm)
     {
-        if (currentForm == PlayerState.Normal)
-        {
-            currentForm = PlayerState.Electric;
-        }else
-        {
-            currentForm = PlayerState.Normal;
+        if (targetForm == PlayerState.Ghost && collideWithGhostAble) {
+            currentForm = PlayerState.Ghost;
         }
+
+        if (targetForm == PlayerState.Normal) {
+            currentForm = PlayerState.Normal;
+
+        }
+       
     }
 
     // Use this for initialization
@@ -35,14 +38,14 @@ public class Player : MonoBehaviour {
     {
         currentForm = PlayerState.Normal;
         anim = GetComponent<Animator>();
+        collideWithGhostAble = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        isGrounded = Physics2D.OverlapCircle(grounded.transform.position, radius, walkable);
 
-        if (currentForm == PlayerState.Normal)
+        if (currentForm == PlayerState.Normal || currentForm == PlayerState.Ghost)
         {
             updatePlayer();
         }
@@ -55,6 +58,29 @@ public class Player : MonoBehaviour {
             throw new EntryPointNotFoundException();
         }
 
+    }
+
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        if (coll.gameObject.tag == "GhostWall") {
+          
+            StartCoroutine(EnableAllowGhosting()); 
+            if (currentForm == PlayerState.Ghost) {
+                StartCoroutine(DeactivateGhostBlock(coll.collider));          
+            }
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D coll)
+    {
+
+    }
+
+    void OnTriggerEnter2D(Collider2D coll) {
+        if (coll.gameObject.tag == "Note") {
+            Note note = coll.gameObject.GetComponent<Note>();
+            note.Collect();
+        }
     }
 
     private void updatePlayer()
@@ -77,11 +103,10 @@ public class Player : MonoBehaviour {
     private void checkPlayerMovement()
     {
 
-        if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow) && isGrounded == true)
-            {
+        if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isGrounded())
+        {
             //jump
-            GetComponent<Rigidbody2D>().AddForce(jumpVector, ForceMode2D.Impulse);
-            jumpVector.y = 0.5f;
+            jump(0.0f, 3.0f);
         }
         else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
@@ -98,7 +123,7 @@ public class Player : MonoBehaviour {
 
         }
         else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-            {
+        {
             //move right
             transform.localRotation = Quaternion.Euler(0, 0, 0);
             anim.SetInteger("State", 1);
@@ -107,6 +132,18 @@ public class Player : MonoBehaviour {
         else
             Idle();
 
+        if (Input.GetKey(KeyCode.Return)) {
+            changeForm(PlayerState.Ghost);
+        }
+
+    }
+
+
+    private void jump(float x, float y)
+    {
+        GetComponent<Rigidbody2D>().AddForce(jumpVector, ForceMode2D.Impulse);
+        jumpVector.x = x;
+        jumpVector.y = y;
     }
 
     private void move(float x, float y, float z)
@@ -116,7 +153,34 @@ public class Player : MonoBehaviour {
 
     private void move(float x, float y)
     {
-        transform.position += new Vector3(x * Time.deltaTime, y * Time.deltaTime, 0.0f);
+        GetComponent<Rigidbody2D>().velocity += new Vector2(x * Time.deltaTime, y * Time.deltaTime);
+    }
+
+    IEnumerator DeactivateGhostBlock(Collider2D collider)
+    {
+      //  print(Time.time);
+        collider.enabled = false; 
+        yield return new WaitForSeconds(0.2f);
+        collider.enabled = true; 
+        print(collider.enabled);
+        changeForm(PlayerState.Normal);
+    }
+
+    IEnumerator EnableAllowGhosting()
+    {
+      //  print(Time.time);
+        collideWithGhostAble = true; 
+        yield return new WaitForSeconds(0.25f);
+        collideWithGhostAble = false; 
+    }
+
+    //Unity variables. Must be public, class scope, must not be set.
+    public Transform grounded;
+    public float radius;
+    public LayerMask walkable;
+    private bool isGrounded()
+    {
+        return Physics2D.OverlapCircle(grounded.transform.position, radius, walkable);
     }
 
     private void Idle()
