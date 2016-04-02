@@ -5,11 +5,6 @@ using System;
 public class Player : MonoBehaviour {
 
     private int moveSpeed = 10;
-    public Transform grounded;
-    public float radius;
-    public LayerMask walkable;
-    public bool isGrounded = false;
-    public Vector2 jumpVector;
 
     private PlayerState currentForm; 
 
@@ -38,7 +33,6 @@ public class Player : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        isGrounded = Physics2D.OverlapCircle(grounded.transform.position, radius, walkable);
 
         if (currentForm == PlayerState.Normal)
         {
@@ -75,11 +69,10 @@ public class Player : MonoBehaviour {
     private void checkPlayerMovement()
     {
 
-        if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow) && isGrounded == true)
+        if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow)) && isGrounded())
             {
             //jump
-            GetComponent<Rigidbody2D>().AddForce(jumpVector, ForceMode2D.Impulse);
-            jumpVector.y = 0.5f;
+            jump(0.0f, 3.0f);
         }
         else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
@@ -99,6 +92,15 @@ public class Player : MonoBehaviour {
 
     }
 
+
+    public Vector2 jumpVector;
+    private void jump(float x, float y)
+    {
+        GetComponent<Rigidbody2D>().AddForce(jumpVector, ForceMode2D.Impulse);
+        jumpVector.x = x;
+        jumpVector.y = y;
+    }
+
     private void move(float x, float y, float z)
     {
         transform.position += new Vector3(x * Time.deltaTime, y * Time.deltaTime, z * Time.deltaTime);
@@ -107,6 +109,18 @@ public class Player : MonoBehaviour {
     private void move(float x, float y)
     {
         transform.position += new Vector3(x * Time.deltaTime, y * Time.deltaTime, 0.0f);
+    }
+
+
+    /*
+     * Unity variables. Must be public, class scope, must not be set.
+     * /
+    public Transform grounded;
+    public float radius;
+    public LayerMask walkable;
+    private bool isGrounded()
+    {
+        return Physics2D.OverlapCircle(grounded.transform.position, radius, walkable);
     }
 
 }
