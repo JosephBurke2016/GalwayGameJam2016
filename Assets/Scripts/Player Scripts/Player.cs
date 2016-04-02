@@ -112,6 +112,7 @@ public class Player : MonoBehaviour
         if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isGrounded())
         {
             //jump
+            anim.SetInteger("State", 3);
             jump(0.0f, 3.0f);
         }
         else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
@@ -139,6 +140,7 @@ public class Player : MonoBehaviour
             Idle();
 
         if (Input.GetKey(KeyCode.Return)) {
+            anim.SetInteger("State", 4);
             changeForm(PlayerState.Ghost);
         }
 
