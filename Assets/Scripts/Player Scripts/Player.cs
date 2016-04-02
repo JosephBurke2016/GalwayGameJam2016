@@ -4,8 +4,12 @@ using System;
 
 public class Player : MonoBehaviour {
 
-    //private Vector2 move;
     private int moveSpeed = 10;
+    public Transform grounded;
+    public float radius;
+    public LayerMask walkable;
+    public bool isGrounded = false;
+    public Vector2 jumpVector;
 
     private PlayerState currentForm; 
 
@@ -35,6 +39,8 @@ public class Player : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        isGrounded = Physics2D.OverlapCircle(grounded.transform.position, radius, walkable);
+
         if (currentForm == PlayerState.Normal)
         {
             updatePlayer();
@@ -86,10 +92,11 @@ public class Player : MonoBehaviour {
     private void checkPlayerMovement()
     {
 
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow) && isGrounded == true)
             {
-            //move up
-            move(0, moveSpeed);
+            //jump
+            GetComponent<Rigidbody2D>().AddForce(jumpVector, ForceMode2D.Impulse);
+            jumpVector.y = 0.5f;
         }
         else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
