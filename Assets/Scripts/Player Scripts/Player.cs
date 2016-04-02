@@ -4,6 +4,7 @@ using System;
 
 public class Player : MonoBehaviour
 {
+    public GameObject TextCanvas;
 
     private int moveSpeed = 30;
 
@@ -14,14 +15,16 @@ public class Player : MonoBehaviour
     private float safeY;
     private PlayerState currentForm;
     private bool inAir = false;
+    private int noteBlock;
     private bool falling = false;
     private float jumpPoint = 0.0f;
-
+    
     enum PlayerState
     {
         Normal,
         Electric,
-        Ghost
+        Ghost,
+        Note
     };
 
     private void changeForm(PlayerState targetForm)
@@ -48,6 +51,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        HandleNote();
 
         if (currentForm == PlayerState.Normal || currentForm == PlayerState.Ghost)
         {
@@ -57,11 +61,6 @@ public class Player : MonoBehaviour
         {
             updateEnergy();
         }
-        else
-        {
-            throw new EntryPointNotFoundException();
-        }
-
     }
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -71,7 +70,7 @@ public class Player : MonoBehaviour
             if (currentForm == PlayerState.Ghost) {
                 StartCoroutine(DeactivateGhostBlock(coll.collider));          
             } else {
-                 setVelocity(0.0f, -15);
+                setVelocity(0.0f, -15);
             }
         }
     }
@@ -83,14 +82,33 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D coll) {
         if (coll.gameObject.tag == "Note") {
+
             Note note = coll.gameObject.GetComponent<Note>();
             note.Collect();
+            currentForm = PlayerState.Note;
+            noteBlock = 0;
+        }
+    }
+
+    private void HandleNote() {
+        if (currentForm == PlayerState.Note) {
+            if (noteBlock < 50) {
+                noteBlock++;
+                return;
+            }
+
+
+            if (Input.anyKey) {
+                currentForm = PlayerState.Normal;
+                TextCanvas.SetActive(false);         
+            }
+            else
+                return;
         }
     }
 
     private void updatePlayer()
     {
-        
         checkPlayerMovement();
         updateCheckpoint();
 
