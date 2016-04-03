@@ -11,6 +11,8 @@ TagManager:
   - ExitBox
   - RedPipe
   - Terminal
+  - LeftToRight
+  - Explosion
   layers:
   - Default
   - TransparentFX
