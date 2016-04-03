@@ -297,7 +297,7 @@ public class Player : MonoBehaviour
             move(moveSpeed, 0);
 
             if (isGrounded() && !source.isPlaying) {
-                source.PlayOneShot(walkingSound, 0.5f);
+                source.PlayOneShot(walkingSound, 1.0f);
             }
         }
         else
