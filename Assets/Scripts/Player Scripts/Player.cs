@@ -81,9 +81,19 @@ public class Player : MonoBehaviour
                 setVelocity(0.0f, -15);
             }
         }
+
+        if (coll.gameObject.tag == "Terminal")
+        {
+            for(int i = 0; i < 10000; i++)
+            {
+                //do nothing, allow time for explosion effect
+                //not sure if this delay works as I cant reach the end of the level
+            }
+            resetWorld();
+        }
     }
 
-    void OnCollisionExit2D(Collision2D coll)
+        void OnCollisionExit2D(Collision2D coll)
     {
 
     }
@@ -107,6 +117,7 @@ public class Player : MonoBehaviour
                 break; 
         }
     }
+
 
     private void EntryCables (Collider2D coll) {
         changeForm(PlayerState.Electric);
@@ -253,7 +264,7 @@ public class Player : MonoBehaviour
         if (ghostCheck())
             return;
 
-        print(GetComponent<Rigidbody2D>().velocity);
+        //print(GetComponent<Rigidbody2D>().velocity);
 
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
@@ -301,11 +312,16 @@ public class Player : MonoBehaviour
         if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isGrounded())
         {
             //jump
+<<<<<<< HEAD
             inAir = false;
             source.PlayOneShot(jumpSound, 0.5f);
             //disabled air animation for now
             //inAir = true;
             anim.SetInteger("State", 3);
+=======
+            inAir = true;
+            //anim.SetInteger("State", 3);
+>>>>>>> c02d8c9fb381c4cd1d93bbfed92c5039e5e26795
             jump(0.0f, 15.0f);
         }
 
@@ -361,7 +377,7 @@ public class Player : MonoBehaviour
     
     private void updateCheckpoint()
     {
-        if (isGrounded() && currentForm == PlayerState.Normal)
+        if (isGrounded() && currentForm == PlayerState.Normal && (!inAir))
         {
             resetPlayerVelocity();
             setSafePoint();
@@ -425,11 +441,18 @@ public class Player : MonoBehaviour
 
     private void move(float x, float y)
     {
-     
-        if(GetComponent<Rigidbody2D>().velocity.x < 50 && GetComponent<Rigidbody2D>().velocity.x > -50)
+
+        if (inAir)
+        {
+            x = x / 2;
+            y = y / 2;
+        }
+
+        if (GetComponent<Rigidbody2D>().velocity.x < 50 && GetComponent<Rigidbody2D>().velocity.x > -50)
         {
             GetComponent<Rigidbody2D>().velocity += new Vector2(x * Time.deltaTime, y * Time.deltaTime);
         }
+        
 
     }
 
