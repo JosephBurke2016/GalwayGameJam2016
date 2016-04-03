@@ -17,7 +17,7 @@ public class Note : MonoBehaviour {
 		"Entry 8 \nTesting has been satisfactory. I will be starting the machine tomorrow.",
 		"Entry 1 \nThings are not going well at the moment.\nYou see it everywhere in the news. War. Disasters. Our resources slowly being depleted. \nI need to do something about it, it's my duty. I need to make of this world a better place.\nIf I have the chance to try to make things better, then I must do that.",
 		"Entry 9 \nWhen I started the machine, something strange happened. I saw a girl, she looked like she was made of electricity. \nShe did something to the machine, I don't know what. But it has smashed the barrier between the worlds and it has done something to Ellie too. \nWhat have I done?",
-		"CONTROLS\nLEFT, RIGHT/ A, D - MOVEMENT\nSPACE/W/UP - JUMP\nENTER (HOLD) - ENERGY FORM\nR - RESET"
+		"CONTROLS\nLEFT, RIGHT/ A, D - MOVEMENT\nSPACE/W/UP - JUMP\nENTER (HOLD) - ENERGY FORM\nP - QUICK SAVE"
 	};
 
 	public GameObject TextCanvas;

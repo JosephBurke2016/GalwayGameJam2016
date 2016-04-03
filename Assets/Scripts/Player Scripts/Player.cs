@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
     private CableMechanic.moveDir currentEnergyDirection;
     public int energySpeed;
     private bool startPointSet = false;
+    private bool pIsPressed = true;
     private Vector2 startPoint;
 
     private AudioSource source;  
@@ -297,7 +298,7 @@ public class Player : MonoBehaviour
             move(moveSpeed, 0);
 
             if (isGrounded() && !source.isPlaying) {
-                source.PlayOneShot(walkingSound, 0.5f);
+                source.PlayOneShot(walkingSound, 1.0f);
             }
         }
         else
@@ -320,6 +321,14 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.R)){
             resetWorld();
+        }
+
+        if (Input.GetKey(KeyCode.P)||pIsPressed)
+        {
+           if(!inAir&&isGrounded()){
+                setSafePoint();
+                pIsPressed = false;
+            }
         }
 
     }
@@ -368,12 +377,12 @@ public class Player : MonoBehaviour
         }
     }
     
+
     private void updateCheckpoint()
-    {
+    {      
         if (isGrounded() && currentForm == PlayerState.Normal && (!inAir))
         {
             resetPlayerVelocity();
-            setSafePoint();
         }
 
         if(transform.position.y < -3 && (!isGrounded()))
