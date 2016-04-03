@@ -397,6 +397,10 @@ Prefab:
       propertyPath: m_LocalScale.y
       value: 2.5
       objectReference: {fileID: 0}
+    - target: {fileID: 11403978, guid: 765cd396fa4a6564fbb6d8f44735db31, type: 2}
+      propertyPath: TextCanvas
+      value: 
+      objectReference: {fileID: 550192652}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 765cd396fa4a6564fbb6d8f44735db31, type: 2}
   m_IsPrefabParent: 0
