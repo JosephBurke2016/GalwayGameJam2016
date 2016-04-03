@@ -18,7 +18,10 @@ public class Player : MonoBehaviour
     private int noteBlock;
     private bool falling = false;
     private bool wasJumping = false;
-    
+    private bool startPointSet = false;
+    private Vector2 startPoint;
+
+
     enum PlayerState
     {
         Normal,
@@ -46,6 +49,9 @@ public class Player : MonoBehaviour
         currentForm = PlayerState.Normal;
         anim = GetComponent<Animator>();
 
+        //save player start position
+        startPoint.x = transform.position.x;
+        startPoint.y = transform.position.y;
     }
 
     // Update is called once per frame
@@ -82,13 +88,37 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D coll) {
         if (coll.gameObject.tag == "Note") {
-
+            
             Note note = coll.gameObject.GetComponent<Note>();
             note.Collect();
             currentForm = PlayerState.Note;
             noteBlock = 0;
         }
     }
+
+    private void resetWorld()
+    {
+        safeX = startPoint.x;
+        safeY = startPoint.y;
+        loadSafePoint();
+    }
+
+    private void resetNote(String noteName)
+    {
+        GameObject go;
+        go = GameObject.Find(noteName);
+        go.SetActive(true);
+    }
+
+    private void resetAllNotes()
+    {
+        int numberOfNotes = 8;
+        for(int i = 0; i < numberOfNotes; i++)
+        {
+            resetNote("Note" + i);
+        }
+    }
+
 
     private void HandleNote() {
         if (currentForm == PlayerState.Note) {
@@ -139,18 +169,13 @@ public class Player : MonoBehaviour
         }
 
         checkLanding();
-
-
-        if (falling)
-        {
-            print("falling " + transform.position.y);
-        }
         
         if (ghostCheck())
         {
             return;
         }
 
+        print(GetComponent<Rigidbody2D>().velocity);
 
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
@@ -194,7 +219,11 @@ public class Player : MonoBehaviour
             //disabled air animation for now
             //inAir = true;
             anim.SetInteger("State", 3);
-            jump(0.0f, 5.0f);
+            jump(0.0f, 15.0f);
+        }
+
+        if (Input.GetKey(KeyCode.R)){
+            resetWorld();
         }
 
     }
@@ -275,6 +304,7 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(safeX, safeY, 0.0f);
         falling = false;
         inAir = false;
+        anim.SetInteger("State", 0);
     }
 
     private void resetPlayerVelocity()
@@ -303,12 +333,17 @@ public class Player : MonoBehaviour
 
     private void move(float x, float y, float z)
     {
-        transform.position += new Vector3(x * Time.deltaTime, y * Time.deltaTime, z * Time.deltaTime);
+        //transform.position += new Vector3(x * Time.deltaTime, y * Time.deltaTime, z * Time.deltaTime);
     }
 
     private void move(float x, float y)
     {
-        GetComponent<Rigidbody2D>().velocity += new Vector2(x * Time.deltaTime, y * Time.deltaTime);
+     
+        if(GetComponent<Rigidbody2D>().velocity.x < 50 && GetComponent<Rigidbody2D>().velocity.x > -50)
+        {
+            GetComponent<Rigidbody2D>().velocity += new Vector2(x * Time.deltaTime, y * Time.deltaTime);
+        }
+
     }
 
     private void setVelocity(float x, float y)
