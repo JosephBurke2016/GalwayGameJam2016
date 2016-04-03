@@ -137,6 +137,7 @@ public class Player : MonoBehaviour
 
         checkLanding();
 
+
         if (falling)
         {
             print("falling " + transform.position.y);
@@ -247,7 +248,7 @@ public class Player : MonoBehaviour
             setSafePoint();
         }
 
-        if(transform.position.y < -3)
+        if(transform.position.y < -3 && (!isGrounded()))
         {
             falling = true;
             anim.SetInteger("State", 5);

@@ -7,7 +7,10 @@ TagManager:
   - Ground
   - GhostWall
   - Note
-  - LeftToRight
+  - EntryBox
+  - ExitBox
+  - RedPipe
+  - Terminal
   layers:
   - Default
   - TransparentFX
