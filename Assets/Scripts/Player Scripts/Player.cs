@@ -6,6 +6,12 @@ public class Player : MonoBehaviour
 {
     public GameObject TextCanvas;
 
+    public AudioClip jumpSound;
+    public AudioClip walkingSound;
+    public AudioClip noteSound;
+    public AudioClip electricSound;
+
+
     private int moveSpeed = 30;
 
     private Vector2 jumpVector;
@@ -22,6 +28,8 @@ public class Player : MonoBehaviour
     public int energySpeed;
     private bool startPointSet = false;
     private Vector2 startPoint;
+
+    private AudioSource source;  
     
     enum PlayerState
     {
@@ -33,7 +41,7 @@ public class Player : MonoBehaviour
 
     private void changeForm(PlayerState targetForm)
     {
-        currentForm = targetForm;       
+        currentForm = targetForm;  
     }
 
     // Use this for initialization
@@ -41,6 +49,8 @@ public class Player : MonoBehaviour
     {
         currentForm = PlayerState.Normal;
         anim = GetComponent<Animator>();
+        source = GetComponent<AudioSource>();     
+
 
         //save player start position
         startPoint.x = transform.position.x;
@@ -134,6 +144,7 @@ public class Player : MonoBehaviour
         GetComponent<Rigidbody2D>().gravityScale = 1;
         Vector3 center = coll.gameObject.GetComponent<BoxCollider2D>().bounds.center;
         transform.position = center;
+        source.Stop();
     }
 
     private void CollectNote (Collider2D coll) {
@@ -141,6 +152,8 @@ public class Player : MonoBehaviour
         note.Collect();
         changeForm(PlayerState.Note);
         noteBlock = 0;
+        source.PlayOneShot(noteSound, 0.75f);
+
     }
 
     private void resetWorld()
@@ -200,6 +213,10 @@ public class Player : MonoBehaviour
     {
         anim.SetInteger("State", 4); 
         checkEnergyMovement();
+
+        if (!source.isPlaying)
+            source.PlayOneShot(electricSound, 0.5f);
+
     }
 
     private void checkEnergyMovement()
@@ -253,6 +270,10 @@ public class Player : MonoBehaviour
             }
             move(-moveSpeed, 0);
 
+             if (isGrounded() && !source.isPlaying) {
+                source.PlayOneShot(walkingSound, 0.5f);
+            }
+
         }
         else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
@@ -263,6 +284,10 @@ public class Player : MonoBehaviour
                 anim.SetInteger("State", 1);
             }
             move(moveSpeed, 0);
+
+            if (isGrounded() && !source.isPlaying) {
+                source.PlayOneShot(walkingSound, 0.5f);
+            }
         }
         else
         {
@@ -277,6 +302,7 @@ public class Player : MonoBehaviour
         {
             //jump
             inAir = false;
+            source.PlayOneShot(jumpSound, 0.5f);
             //disabled air animation for now
             //inAir = true;
             anim.SetInteger("State", 3);
@@ -427,7 +453,7 @@ public class Player : MonoBehaviour
     public LayerMask walkable;
     private bool isGrounded()
     {
-        float radius = 0.2f;
+        float radius = 0.05f;
         return Physics2D.OverlapCircle(grounded.transform.position, radius, walkable);
     }
 
