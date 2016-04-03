@@ -1724,7 +1724,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 3868d54f5b24f19479997ab0a554439b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2223,6 +2223,10 @@ Prefab:
     - target: {fileID: 479692, guid: 13b323a2e7aeb8642afb60409b18376c, type: 2}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 21277714, guid: 13b323a2e7aeb8642afb60409b18376c, type: 2}
+      propertyPath: m_SortingOrder
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6025212, guid: 13b323a2e7aeb8642afb60409b18376c, type: 2}
@@ -3031,7 +3035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cabledir: 0
+  cabledir: 1
 --- !u!61 &385728333
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3368,7 +3372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cabledir: 3
+  cabledir: 1
 --- !u!61 &419814709
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4908,7 +4912,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cabledir: 0
+  cabledir: 1
 --- !u!61 &617872756
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6266,7 +6270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cabledir: 0
+  cabledir: 1
 --- !u!61 &793687196
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7167,7 +7171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cabledir: 0
+  cabledir: 1
 --- !u!61 &942914300
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8776,7 +8780,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cabledir: 0
+  cabledir: 1
 --- !u!61 &1213864857
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11277,7 +11281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cabledir: 0
+  cabledir: 1
 --- !u!61 &1524501242
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11424,7 +11428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cabledir: 0
+  cabledir: 1
 --- !u!61 &1537403322
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11857,7 +11861,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cabledir: 0
+  cabledir: 1
 --- !u!61 &1652111835
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12376,7 +12380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cabledir: 0
+  cabledir: 1
 --- !u!61 &1702064143
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -14158,7 +14162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cabledir: 0
+  cabledir: 1
 --- !u!61 &1935231228
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -14764,7 +14768,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cabledir: 0
+  cabledir: 3
 --- !u!61 &2054718194
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -14806,7 +14810,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 3868d54f5b24f19479997ab0a554439b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -15376,7 +15380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cabledir: 0
+  cabledir: 1
 --- !u!61 &2128831563
 BoxCollider2D:
   m_ObjectHideFlags: 0
