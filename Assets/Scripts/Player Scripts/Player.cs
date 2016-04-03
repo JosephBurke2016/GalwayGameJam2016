@@ -29,15 +29,7 @@ public class Player : MonoBehaviour
 
     private void changeForm(PlayerState targetForm)
     {
-        if (targetForm == PlayerState.Ghost) {
-            currentForm = PlayerState.Ghost;
-        }
-
-        if (targetForm == PlayerState.Normal) {
-            currentForm = PlayerState.Normal;
-
-        }
-       
+        currentForm = targetForm;       
     }
 
     // Use this for initialization
@@ -85,7 +77,7 @@ public class Player : MonoBehaviour
 
             Note note = coll.gameObject.GetComponent<Note>();
             note.Collect();
-            currentForm = PlayerState.Note;
+            changeForm(PlayerState.Note);
             noteBlock = 0;
         }
     }
@@ -99,7 +91,7 @@ public class Player : MonoBehaviour
 
 
             if (Input.anyKey) {
-                currentForm = PlayerState.Normal;
+                changeForm(PlayerState.Normal);
                 TextCanvas.SetActive(false);         
             }
             else
