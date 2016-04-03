@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     private CableMechanic.moveDir currentEnergyDirection;
     public int energySpeed;
     private bool startPointSet = false;
+    private bool pIsPressed = true;
     private Vector2 startPoint;
 
     enum PlayerState
@@ -296,6 +297,12 @@ public class Player : MonoBehaviour
             resetWorld();
         }
 
+        if (Input.GetKey(KeyCode.P)||pIsPressed)
+        {
+            setSafePoint();
+            pIsPressed = false;
+        }
+
     }
 
     private void checkLanding()
@@ -342,12 +349,12 @@ public class Player : MonoBehaviour
         }
     }
     
+
     private void updateCheckpoint()
-    {
+    {      
         if (isGrounded() && currentForm == PlayerState.Normal && (!inAir))
         {
             resetPlayerVelocity();
-            setSafePoint();
         }
 
         if(transform.position.y < -3 && (!isGrounded()))
