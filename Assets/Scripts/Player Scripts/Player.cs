@@ -237,7 +237,7 @@ public class Player : MonoBehaviour
         if (ghostCheck())
             return;
 
-        print(GetComponent<Rigidbody2D>().velocity);
+        //print(GetComponent<Rigidbody2D>().velocity);
 
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
@@ -277,10 +277,8 @@ public class Player : MonoBehaviour
         if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isGrounded())
         {
             //jump
-            inAir = false;
-            //disabled air animation for now
-            //inAir = true;
-            anim.SetInteger("State", 3);
+            inAir = true;
+            //anim.SetInteger("State", 3);
             jump(0.0f, 15.0f);
         }
 
@@ -400,11 +398,18 @@ public class Player : MonoBehaviour
 
     private void move(float x, float y)
     {
-     
-        if(GetComponent<Rigidbody2D>().velocity.x < 50 && GetComponent<Rigidbody2D>().velocity.x > -50)
+
+        if (inAir)
+        {
+            x = x / 2;
+            y = y / 2;
+        }
+
+        if (GetComponent<Rigidbody2D>().velocity.x < 50 && GetComponent<Rigidbody2D>().velocity.x > -50)
         {
             GetComponent<Rigidbody2D>().velocity += new Vector2(x * Time.deltaTime, y * Time.deltaTime);
         }
+        
 
     }
 
