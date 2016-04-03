@@ -325,8 +325,10 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.P)||pIsPressed)
         {
-            setSafePoint();
-            pIsPressed = false;
+           if(!inAir&&isGrounded()){
+                setSafePoint();
+                pIsPressed = false;
+            }
         }
 
         if (Input.GetKey(KeyCode.P)||pIsPressed)
