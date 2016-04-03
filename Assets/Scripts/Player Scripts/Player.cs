@@ -92,6 +92,8 @@ public class Player : MonoBehaviour
 
     private void HandleNote() {
         if (currentForm == PlayerState.Note) {
+            setVelocity(0.0f, 0.0f);
+            GetComponent<Rigidbody2D>().drag = 100;
             if (noteBlock < 50) {
                 noteBlock++;
                 return;
@@ -100,7 +102,8 @@ public class Player : MonoBehaviour
 
             if (Input.anyKey) {
                 currentForm = PlayerState.Normal;
-                TextCanvas.SetActive(false);         
+                TextCanvas.SetActive(false);
+                GetComponent<Rigidbody2D>().drag = 0;
             }
             else
                 return;
