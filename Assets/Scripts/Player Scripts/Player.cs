@@ -71,9 +71,19 @@ public class Player : MonoBehaviour
                 setVelocity(0.0f, -15);
             }
         }
+
+        if (coll.gameObject.tag == "Terminal")
+        {
+            for(int i = 0; i < 10000; i++)
+            {
+                //do nothing, allow time for explosion effect
+                //not sure if this delay works as I cant reach the end of the level
+            }
+            resetWorld();
+        }
     }
 
-    void OnCollisionExit2D(Collision2D coll)
+        void OnCollisionExit2D(Collision2D coll)
     {
 
     }
@@ -334,7 +344,7 @@ public class Player : MonoBehaviour
     
     private void updateCheckpoint()
     {
-        if (isGrounded() && currentForm == PlayerState.Normal)
+        if (isGrounded() && currentForm == PlayerState.Normal && (!inAir))
         {
             resetPlayerVelocity();
             setSafePoint();
