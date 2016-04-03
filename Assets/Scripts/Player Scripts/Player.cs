@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     public int energySpeed;
     private bool startPointSet = false;
     private Vector2 startPoint;
-    
+
     enum PlayerState
     {
         Normal,
@@ -97,6 +97,7 @@ public class Player : MonoBehaviour
                 break; 
         }
     }
+
 
     private void EntryCables (Collider2D coll) {
         changeForm(PlayerState.Electric);
