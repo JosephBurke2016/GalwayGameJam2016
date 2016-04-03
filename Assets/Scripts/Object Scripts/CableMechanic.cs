@@ -5,8 +5,10 @@ public class CableMechanic : MonoBehaviour {
 
     public enum moveDir
     {
-        up,
-        down
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
     }
 
     public moveDir cabledir;
@@ -19,5 +21,14 @@ public class CableMechanic : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	public float getCableMiddle () {
+		Vector3 center = GetComponent<BoxCollider2D>().bounds.center;
+
+		if (cabledir == moveDir.UP || cabledir == moveDir.DOWN)
+			return center.x;
+		else 
+			return center.y;
 	}
 }
