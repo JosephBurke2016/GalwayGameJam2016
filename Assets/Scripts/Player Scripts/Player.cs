@@ -18,6 +18,9 @@ public class Player : MonoBehaviour
     private int noteBlock;
     private bool falling = false;
     private bool wasJumping = false;
+
+    private CableMechanic.moveDir currentEnergyDirection;
+    public int energySpeed;
     
     enum PlayerState
     {
@@ -25,7 +28,7 @@ public class Player : MonoBehaviour
         Electric,
         Ghost,
         Note
-    };
+    }
 
     private void changeForm(PlayerState targetForm)
     {
@@ -58,7 +61,6 @@ public class Player : MonoBehaviour
     void OnCollisionEnter2D(Collision2D coll)
     {
         if (coll.gameObject.tag == "GhostWall") {
-          
             if (currentForm == PlayerState.Ghost) {
                 StartCoroutine(DeactivateGhostBlock(coll.collider));          
             } else {
@@ -73,13 +75,68 @@ public class Player : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D coll) {
-        if (coll.gameObject.tag == "Note") {
-
-            Note note = coll.gameObject.GetComponent<Note>();
-            note.Collect();
-            changeForm(PlayerState.Note);
-            noteBlock = 0;
+        switch (coll.gameObject.tag) {
+            case "Note":
+                CollectNote(coll);
+                break;
+            case "EntryBox":
+                EntryCables(coll);
+                break;
+            case "RedPipe":
+                MoveAlongCable(coll);
+                break;
+            case "ExitBox":
+                ExitCables(coll);
+                break;
+            default:
+                print(coll.gameObject.tag);
+                break; 
         }
+    }
+
+    private void EntryCables (Collider2D coll) {
+        changeForm(PlayerState.Electric);
+        GetComponent<Rigidbody2D>().gravityScale = 0;
+        setVelocity(0.0f, 0.0f);
+
+        Vector3 lowerLeft = coll.gameObject.GetComponent<BoxCollider2D>().bounds.min;
+        
+        transform.position = new Vector3(transform.position.x, lowerLeft.y, 0.0f);
+
+        currentEnergyDirection = CableMechanic.moveDir.RIGHT;
+    }
+
+    private void MoveAlongCable (Collider2D coll) {
+        if (currentForm != PlayerState.Electric)
+            return;
+
+        CableMechanic cable = coll.gameObject.GetComponent<CableMechanic>();
+        currentEnergyDirection = cable.cabledir;
+        print(currentEnergyDirection);
+        float center = cable.getCableMiddle();
+
+        if (cable.cabledir == CableMechanic.moveDir.UP || cable.cabledir == CableMechanic.moveDir.DOWN)
+            transform.position = new Vector3(center, transform.position.y, 0.0f);
+        else 
+            transform.position = new Vector3(transform.position.x, center, 0.0f);
+    }
+
+    private void ExitCables (Collider2D coll) {
+
+        if (currentForm != PlayerState.Electric)
+            return;
+
+        changeForm(PlayerState.Normal);
+        GetComponent<Rigidbody2D>().gravityScale = 1;
+        Vector3 center = coll.gameObject.GetComponent<BoxCollider2D>().bounds.center;
+        transform.position = center;
+    }
+
+    private void CollectNote (Collider2D coll) {
+        Note note = coll.gameObject.GetComponent<Note>();
+        note.Collect();
+        changeForm(PlayerState.Note);
+        noteBlock = 0;
     }
 
     private void HandleNote() {
@@ -109,12 +166,30 @@ public class Player : MonoBehaviour
 
     private void updateEnergy()
     {
+        anim.SetInteger("State", 4); 
         checkEnergyMovement();
     }
 
     private void checkEnergyMovement()
     {
-        throw new NotImplementedException();
+        Vector2 movement = new Vector2(0,0);
+        switch (currentEnergyDirection) {
+            case CableMechanic.moveDir.LEFT:
+                movement = Vector2.left;
+                break;
+            case CableMechanic.moveDir.RIGHT:
+                movement = Vector2.right;
+                break;
+            case CableMechanic.moveDir.UP:
+                movement = Vector2.up;
+                break;
+            case CableMechanic.moveDir.DOWN:
+                movement = Vector2.down;
+                break;
+        }
+        movement *= Time.deltaTime;
+        movement *= energySpeed;
+        transform.position += new Vector3(movement.x, movement.y, 0.0f);
     }
     
 
