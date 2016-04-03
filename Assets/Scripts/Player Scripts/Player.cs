@@ -89,7 +89,6 @@ public class Player : MonoBehaviour
                 return;
             }
 
-
             if (Input.anyKey) {
                 changeForm(PlayerState.Normal);
                 TextCanvas.SetActive(false);         
@@ -123,22 +122,12 @@ public class Player : MonoBehaviour
     {
 
         if (isGrounded())
-        {
             resetVelocity();
-        }
 
         checkLanding();
-
-
-        if (falling)
-        {
-            print("falling " + transform.position.y);
-        }
         
         if (ghostCheck())
-        {
             return;
-        }
 
 
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
