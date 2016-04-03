@@ -250,6 +250,7 @@ public class Player : MonoBehaviour
         if(transform.position.y < -3)
         {
             falling = true;
+            anim.SetInteger("State", 5);
         }
 
         if (transform.position.y < -25)
