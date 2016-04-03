@@ -331,12 +331,6 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.P)||pIsPressed)
-        {
-            setSafePoint();
-            pIsPressed = false;
-        }
-
     }
 
     private void checkLanding()
