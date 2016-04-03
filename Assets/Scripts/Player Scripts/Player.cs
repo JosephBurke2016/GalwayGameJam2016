@@ -163,7 +163,7 @@ public class Player : MonoBehaviour
         note.Collect();
         changeForm(PlayerState.Note);
         noteBlock = 0;
-        source.PlayOneShot(noteSound, 0.75f);
+        source.PlayOneShot(noteSound, 1.0f);
 
     }
 
@@ -226,7 +226,7 @@ public class Player : MonoBehaviour
         checkEnergyMovement();
 
         if (!source.isPlaying)
-            source.PlayOneShot(electricSound, 0.5f);
+            source.PlayOneShot(electricSound, 1.0f);
 
     }
 
@@ -282,7 +282,7 @@ public class Player : MonoBehaviour
             move(-moveSpeed, 0);
 
              if (isGrounded() && !source.isPlaying) {
-                source.PlayOneShot(walkingSound, 0.5f);
+                source.PlayOneShot(walkingSound, 1.0f);
             }
 
         }
@@ -312,16 +312,9 @@ public class Player : MonoBehaviour
         if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isGrounded())
         {
             //jump
-<<<<<<< HEAD
-            inAir = false;
-            source.PlayOneShot(jumpSound, 0.5f);
-            //disabled air animation for now
-            //inAir = true;
-            anim.SetInteger("State", 3);
-=======
             inAir = true;
-            //anim.SetInteger("State", 3);
->>>>>>> c02d8c9fb381c4cd1d93bbfed92c5039e5e26795
+            source.PlayOneShot(jumpSound, 1.0f);
+
             jump(0.0f, 15.0f);
         }
 
