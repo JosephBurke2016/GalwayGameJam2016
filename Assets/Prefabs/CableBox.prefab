@@ -10,9 +10,10 @@ GameObject:
   - 4: {fileID: 453670}
   - 212: {fileID: 21205800}
   - 61: {fileID: 6168786}
+  - 114: {fileID: 11426688}
   m_Layer: 0
   m_Name: RedPipe (3)
-  m_TagString: Untagged
+  m_TagString: RedPipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,9 +28,10 @@ GameObject:
   - 4: {fileID: 475626}
   - 212: {fileID: 21274004}
   - 61: {fileID: 6101706}
+  - 114: {fileID: 11441368}
   m_Layer: 0
   m_Name: RedPipe
-  m_TagString: Untagged
+  m_TagString: RedPipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,9 +46,10 @@ GameObject:
   - 4: {fileID: 459450}
   - 212: {fileID: 21270086}
   - 61: {fileID: 6122404}
+  - 114: {fileID: 11450980}
   m_Layer: 0
   m_Name: RedPipeBend (1)
-  m_TagString: Untagged
+  m_TagString: RedPipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -61,9 +64,10 @@ GameObject:
   - 4: {fileID: 429182}
   - 212: {fileID: 21291812}
   - 61: {fileID: 6124584}
+  - 114: {fileID: 11406268}
   m_Layer: 0
   m_Name: RedPipe (1)
-  m_TagString: Untagged
+  m_TagString: RedPipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78,9 +82,10 @@ GameObject:
   - 4: {fileID: 402502}
   - 212: {fileID: 21289126}
   - 61: {fileID: 6143668}
+  - 114: {fileID: 11435246}
   m_Layer: 0
   m_Name: RedPipeBend
-  m_TagString: Untagged
+  m_TagString: RedPipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,10 +101,9 @@ GameObject:
   - 212: {fileID: 21243952}
   - 61: {fileID: 6168672}
   - 114: {fileID: 11456718}
-  - 61: {fileID: 6101822}
   m_Layer: 0
   m_Name: RedPipe2
-  m_TagString: LeftToRight
+  m_TagString: RedPipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -117,7 +121,7 @@ GameObject:
   - 114: {fileID: 11450700}
   m_Layer: 0
   m_Name: PowerBox
-  m_TagString: Untagged
+  m_TagString: EntryBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -132,9 +136,10 @@ GameObject:
   - 4: {fileID: 431458}
   - 212: {fileID: 21245354}
   - 61: {fileID: 6105348}
+  - 114: {fileID: 11400970}
   m_Layer: 0
   m_Name: RedPipeBend
-  m_TagString: Untagged
+  m_TagString: RedPipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -149,9 +154,10 @@ GameObject:
   - 4: {fileID: 486956}
   - 212: {fileID: 21220086}
   - 61: {fileID: 6124074}
+  - 114: {fileID: 11498182}
   m_Layer: 0
   m_Name: RedPipe (2)
-  m_TagString: Untagged
+  m_TagString: RedPipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -166,9 +172,10 @@ GameObject:
   - 4: {fileID: 499344}
   - 212: {fileID: 21263978}
   - 61: {fileID: 6150666}
+  - 114: {fileID: 11485714}
   m_Layer: 0
   m_Name: RedPipeBend1
-  m_TagString: Untagged
+  m_TagString: RedPipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -183,9 +190,10 @@ GameObject:
   - 4: {fileID: 498656}
   - 212: {fileID: 21225300}
   - 61: {fileID: 6179560}
+  - 114: {fileID: 11481876}
   m_Layer: 0
   m_Name: RedPipe (4)
-  m_TagString: Untagged
+  m_TagString: RedPipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -218,7 +226,7 @@ GameObject:
   - 114: {fileID: 11418644}
   m_Layer: 0
   m_Name: PowerBox (1)
-  m_TagString: Untagged
+  m_TagString: ExitBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -236,7 +244,7 @@ GameObject:
   - 114: {fileID: 11405300}
   m_Layer: 0
   m_Name: RedPipe
-  m_TagString: LeftToRight
+  m_TagString: RedPipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -252,10 +260,9 @@ GameObject:
   - 212: {fileID: 21294106}
   - 61: {fileID: 6160960}
   - 114: {fileID: 11465614}
-  - 61: {fileID: 6102922}
   m_Layer: 0
   m_Name: RedPipe3
-  m_TagString: LeftToRight
+  m_TagString: RedPipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -468,34 +475,6 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 0.39, y: 0.05}
---- !u!61 &6101822
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 132768}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 0.39, y: 0.05}
---- !u!61 &6102922
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 198062}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_Offset: {x: 0.000000029802322, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 0.38999993, y: 0.049999993}
 --- !u!61 &6105348
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -505,7 +484,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
@@ -519,7 +498,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
@@ -575,7 +554,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
@@ -678,6 +657,18 @@ BoxCollider2D:
   m_Offset: {x: -0.019659042, y: -0.0045366287}
   serializedVersion: 2
   m_Size: {x: 0.16068247, y: 0.3909264}
+--- !u!114 &11400970
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 142162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cabledir: 3
 --- !u!114 &11405300
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -689,7 +680,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cabledir: 1
+  cabledir: 3
+--- !u!114 &11406268
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 122870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cabledir: 3
 --- !u!114 &11418644
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -704,6 +707,42 @@ MonoBehaviour:
   player: {fileID: 120296, guid: d751063bc2bd5834eb0fbe6cbe6bc6fa, type: 2}
   anim: {fileID: 0}
   playerDetected: 0
+--- !u!114 &11426688
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 119192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cabledir: 0
+--- !u!114 &11435246
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 123674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cabledir: 0
+--- !u!114 &11441368
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 120222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cabledir: 3
 --- !u!114 &11450700
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -718,6 +757,18 @@ MonoBehaviour:
   player: {fileID: 120296, guid: d751063bc2bd5834eb0fbe6cbe6bc6fa, type: 2}
   anim: {fileID: 0}
   playerDetected: 0
+--- !u!114 &11450980
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 120250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cabledir: 3
 --- !u!114 &11456718
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -729,7 +780,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cabledir: 1
+  cabledir: 3
 --- !u!114 &11465614
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -741,7 +792,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cabledir: 1
+  cabledir: 0
+--- !u!114 &11481876
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 166392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cabledir: 3
+--- !u!114 &11485714
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 154196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cabledir: 0
+--- !u!114 &11498182
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 144002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6a0fe92b9bd4e4459bcabda46b3b7b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cabledir: 3
 --- !u!212 &21202898
 SpriteRenderer:
   m_ObjectHideFlags: 1
