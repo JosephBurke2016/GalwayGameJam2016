@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     private bool inAir = false;
     private int noteBlock;
     private bool falling = false;
-    private float jumpPoint = 0.0f;
+    private bool wasJumping = false;
     
     enum PlayerState
     {
@@ -135,17 +135,18 @@ public class Player : MonoBehaviour
             resetVelocity();
         }
 
+        checkLanding();
+
+        if (falling)
+        {
+            print("falling " + transform.position.y);
+        }
+        
         if (ghostCheck())
         {
             return;
         }
 
-      
-        if (falling)
-        {
-            print("falling "+transform.position.y);
-        }
-        
 
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
@@ -181,12 +182,6 @@ public class Player : MonoBehaviour
                 inAir = false;
             }
         }
-        
-        //what are you afraid of, hard work?
-        //level editors, world generator UI
-
-        //fix paralex
-
 
         if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isGrounded())
         {
@@ -198,6 +193,20 @@ public class Player : MonoBehaviour
             jump(0.0f, 5.0f);
         }
 
+    }
+
+    private void checkLanding()
+    {
+        if (isGrounded()&&wasJumping)
+        {
+            //jump(0.0f, 0.0f);
+            GetComponent<Rigidbody2D>().drag = 100;
+            wasJumping = false;
+        }
+        else if(GetComponent<Rigidbody2D>().drag > 0)
+        {
+            GetComponent<Rigidbody2D>().drag -= 20;
+        }
     }
 
     private bool ghostCheck()
@@ -280,11 +289,11 @@ public class Player : MonoBehaviour
 
     private void jump(float x, float y)
     {
+        GetComponent<Rigidbody2D>().drag = 0;
         GetComponent<Rigidbody2D>().AddForce(jumpVector, ForceMode2D.Impulse);
         jumpVector.x = x;
         jumpVector.y = y;
-
-        jumpPoint = transform.position.y;
+        wasJumping = true;
     }
 
     private void move(float x, float y, float z)
