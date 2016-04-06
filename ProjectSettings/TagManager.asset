@@ -13,6 +13,7 @@ TagManager:
   - Terminal
   - LeftToRight
   - Explosion
+  - Bouncy
   layers:
   - Default
   - TransparentFX

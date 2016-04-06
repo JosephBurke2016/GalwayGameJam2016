@@ -26,9 +26,18 @@ public class CableMechanic : MonoBehaviour {
 	public float getCableMiddle () {
 		Vector3 center = GetComponent<BoxCollider2D>().bounds.center;
 
-		if (cabledir == moveDir.UP || cabledir == moveDir.DOWN)
-			return center.x;
-		else 
-			return center.y;
+        if (cabledir == moveDir.UP || cabledir == moveDir.DOWN)
+        {
+            return center.x;
+        }
+
+        else if ((cabledir == moveDir.RIGHT || cabledir == moveDir.LEFT))
+        {
+            return center.y;
+        }
+        else throw new UnassignedReferenceException();
 	}
+
+    
+
 }

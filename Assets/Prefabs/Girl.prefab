@@ -134,13 +134,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 950d81d60f660d04994a2556f03da10c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TextCanvas: {fileID: 0}
+  jumpSound: {fileID: 0}
+  walkingSound: {fileID: 0}
+  noteSound: {fileID: 0}
+  electricSound: {fileID: 0}
+  energySpeed: 0
   grounded: {fileID: 402038}
-  radius: 0.2
   walkable:
     serializedVersion: 2
     m_Bits: 256
-  isGrounded: 0
-  jumpVector: {x: 0, y: 0.5}
 --- !u!212 &21291312
 SpriteRenderer:
   m_ObjectHideFlags: 1

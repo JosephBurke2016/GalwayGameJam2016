@@ -6,10 +6,11 @@ public class Player : MonoBehaviour
 {
     public GameObject TextCanvas;
 
+    private AudioSource source;
     public AudioClip jumpSound;
     public AudioClip walkingSound;
-    public AudioClip noteSound;
     public AudioClip electricSound;
+    public AudioClip noteSound;
 
 
     private int moveSpeed = 30;
@@ -21,18 +22,15 @@ public class Player : MonoBehaviour
     private float safeY;
     private PlayerState currentForm;
     private bool inAir = false;
-    private int noteBlock;
-    private bool falling = false;
     private bool wasJumping = false;
+    private bool bounce = false;
     private CableMechanic.moveDir currentEnergyDirection;
     public int energySpeed;
-    private bool startPointSet = false;
     private bool pIsPressed = true;
     private Vector2 startPoint;
 
-    private AudioSource source;  
     
-    enum PlayerState
+    public enum PlayerState
     {
         Normal,
         Electric,
@@ -40,7 +38,7 @@ public class Player : MonoBehaviour
         Note
     }
 
-    private void changeForm(PlayerState targetForm)
+    public void changeForm(PlayerState targetForm)
     {
         currentForm = targetForm;  
     }
@@ -59,8 +57,12 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
+    public float keyDelay = 0.05f;
+    private float timePassed = 0.0f;
     void Update()
     {
+        timePassed += Time.deltaTime;
+
         HandleNote();
 
         if (currentForm == PlayerState.Normal || currentForm == PlayerState.Ghost)
@@ -71,30 +73,43 @@ public class Player : MonoBehaviour
         {
             updateEnergy();
         }
+
+        EndGame[] endNodes = FindObjectsOfType<EndGame>();
+        foreach (EndGame terminal in endNodes)
+        {
+            if (terminal.value > 300)
+            {
+                resetWorld();
+            }
+        }
     }
 
     void OnCollisionEnter2D(Collision2D coll)
     {
         if (coll.gameObject.tag == "GhostWall") {
             if (currentForm == PlayerState.Ghost) {
-                StartCoroutine(DeactivateGhostBlock(coll.collider));          
+                StartCoroutine(DeactivateGhostBlock(coll.collider));
+                print("pass through");       
             } else {
-                setVelocity(0.0f, -15);
+                //set -x velocity as well to pervent stuck in ghostwall bug.
+                setVelocity(0.0f, 0.0f);
             }
         }
 
-        if (coll.gameObject.tag == "Terminal")
+        
+        if (coll.gameObject.tag == "Bouncy")
         {
-            for(int i = 0; i < 10000; i++)
-            {
-                //do nothing, allow time for explosion effect
-                //not sure if this delay works as I cant reach the end of the level
-            }
-            resetWorld();
+            print("bounce");
+            bounce = true;
+        }else if(coll.gameObject.tag != "Bouncy")
+        {
+            print("no bounce");
+            bounce = false;
         }
+        
     }
 
-        void OnCollisionExit2D(Collision2D coll)
+    void OnCollisionExit2D(Collision2D coll)
     {
 
     }
@@ -139,12 +154,22 @@ public class Player : MonoBehaviour
         CableMechanic cable = coll.gameObject.GetComponent<CableMechanic>();
         currentEnergyDirection = cable.cabledir;
         print(currentEnergyDirection);
-        float center = cable.getCableMiddle();
 
-        if (cable.cabledir == CableMechanic.moveDir.UP || cable.cabledir == CableMechanic.moveDir.DOWN)
-            transform.position = new Vector3(center, transform.position.y, 0.0f);
-        else 
-            transform.position = new Vector3(transform.position.x, center, 0.0f);
+        float center = cable.getCableMiddle();
+        switch (cable.cabledir)
+        {
+            case CableMechanic.moveDir.UP:
+            case CableMechanic.moveDir.DOWN:
+                move(center, transform.position.y, 0.0f);
+                break;
+            case CableMechanic.moveDir.LEFT:
+            case CableMechanic.moveDir.RIGHT:
+                move(transform.position.x, center, 0.0f);
+                break;
+            default:
+                throw new System.ArgumentException();
+                //break;
+        }
     }
 
     private void ExitCables (Collider2D coll) {
@@ -160,43 +185,48 @@ public class Player : MonoBehaviour
     }
 
     private void CollectNote (Collider2D coll) {
-        Note note = coll.gameObject.GetComponent<Note>();
-        note.Collect();
-        changeForm(PlayerState.Note);
-        noteBlock = 0;
-        source.PlayOneShot(noteSound, 1.0f);
 
+        Note note = coll.gameObject.GetComponent<Note>();
+        if (note.visible)
+        {
+            note.Collect(this);
+            source.PlayOneShot(noteSound, 1.0f);
+            //there should always be valid safe ground underneath a note
+            setSafePoint();
+        }
     }
 
     private void resetWorld()
     {
         safeX = startPoint.x;
-        safeY = startPoint.y;
+        safeY = startPoint.y+1;
         loadSafePoint();
-    }
+        resetAllNotes();
 
-    private void resetNote(String noteName)
-    {
-        GameObject go;
-        go = GameObject.Find(noteName);
-        go.SetActive(true);
+        EndGame[] endNodes = FindObjectsOfType<EndGame>();
+        foreach (EndGame terminal in endNodes)
+        {
+            terminal.isScaling = false;
+        }
     }
-
+    
     private void resetAllNotes()
     {
-        int numberOfNotes = 8;
-        for(int i = 0; i < numberOfNotes; i++)
+        Note[] notes = FindObjectsOfType<Note>();
+        foreach (Note note in notes)
         {
-            resetNote("Note" + i);
+            print("note "+note.ToString());
+            note.reset();
         }
     }
 
 
+    int noteBlock = 0;
     private void HandleNote() {
         if (currentForm == PlayerState.Note) {
             setVelocity(0.0f, 0.0f);
             GetComponent<Rigidbody2D>().drag = 100;
-            if (noteBlock < 50) {
+            if (noteBlock < 40) {
                 noteBlock++;
                 return;
             }
@@ -206,9 +236,8 @@ public class Player : MonoBehaviour
                 changeForm(PlayerState.Normal);
                 TextCanvas.SetActive(false);
                 GetComponent<Rigidbody2D>().drag = 0;
+                noteBlock = 0;
             }
-            else
-                return;
         }
     }
 
@@ -252,18 +281,22 @@ public class Player : MonoBehaviour
         movement *= energySpeed;
         transform.position += new Vector3(movement.x, movement.y, 0.0f);
     }
-    
 
+
+    
     private void checkPlayerMovement()
     {
 
-        if (isGrounded())
+        if (isCollidingWithWalkableGameObject())
+        {
             resetVelocity();
-
+        }
         checkLanding();
-        
+
         if (ghostCheck())
+        {
             return;
+        }
 
         //print(GetComponent<Rigidbody2D>().velocity);
 
@@ -280,9 +313,9 @@ public class Player : MonoBehaviour
             {
                 anim.SetInteger("State", 2);
             }
-            move(-moveSpeed, 0);
+            move(-moveSpeed, -moveSpeed / 10);
 
-             if (isGrounded() && !source.isPlaying) {
+             if (isCollidingWithWalkableGameObject() && !source.isPlaying) {
                 source.PlayOneShot(walkingSound, 1.0f);
             }
 
@@ -295,27 +328,24 @@ public class Player : MonoBehaviour
             {
                 anim.SetInteger("State", 1);
             }
-            move(moveSpeed, 0);
+            move(moveSpeed, -moveSpeed / 10);
 
-            if (isGrounded() && !source.isPlaying) {
+            if (isCollidingWithWalkableGameObject() && !source.isPlaying) {
                 source.PlayOneShot(walkingSound, 1.0f);
             }
         }
         else
         {
-            if (isGrounded())
+            if (isCollidingWithWalkableGameObject())
             {
                 Idle();
-                inAir = false;
+                //inAir = false;
             }
         }
-
-        if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isGrounded())
+        
+        if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isCollidingWithWalkableGameObject())
         {
             //jump
-            inAir = true;
-            source.PlayOneShot(jumpSound, 1.0f);
-
             jump(0.0f, 15.0f);
         }
 
@@ -325,25 +355,31 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.P)||pIsPressed)
         {
-           if(!inAir&&isGrounded()){
+           if(!inAir&&isCollidingWithWalkableGameObject()){
                 setSafePoint();
                 pIsPressed = false;
             }
         }
 
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     private void checkLanding()
     {
-        if (isGrounded()&&wasJumping)
+        if (isCollidingWithWalkableGameObject()&&wasJumping)
         {
             //jump(0.0f, 0.0f);
             GetComponent<Rigidbody2D>().drag = 100;
             wasJumping = false;
+            inAir = false;
+            setVelocity(0f, 0f);
         }
         else if(GetComponent<Rigidbody2D>().drag > 0)
         {
-            GetComponent<Rigidbody2D>().drag -= 20;
+            GetComponent<Rigidbody2D>().drag -= 50;
         }
     }
 
@@ -352,6 +388,18 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.Return))
         {
             changeForm(PlayerState.Ghost);
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+            {
+                jump(-10, 20);
+            }
+            else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+            {
+                jump(10, 20);
+            }
+            else
+            {
+                jump(0, 20);
+            }
             return true;
         }
         else if (Input.GetKeyUp(KeyCode.Return))
@@ -380,14 +428,13 @@ public class Player : MonoBehaviour
 
     private void updateCheckpoint()
     {      
-        if (isGrounded() && currentForm == PlayerState.Normal && (!inAir))
+        if (isCollidingWithWalkableGameObject() && currentForm == PlayerState.Normal && (!inAir))
         {
             resetPlayerVelocity();
         }
 
-        if(transform.position.y < -3 && (!isGrounded()))
+        if(transform.position.y < -3 && (!isCollidingWithWalkableGameObject()))
         {
-            falling = true;
             anim.SetInteger("State", 5);
         }
 
@@ -407,8 +454,8 @@ public class Player : MonoBehaviour
     {
         setVelocity(0.0f, 0.0f);
         transform.position = new Vector3(safeX, safeY, 0.0f);
-        falling = false;
         inAir = false;
+        bounce = false;
         anim.SetInteger("State", 0);
     }
 
@@ -427,18 +474,57 @@ public class Player : MonoBehaviour
         }
     }
 
+    private bool ghostCharge = false;
     private void jump(float x, float y)
     {
-        GetComponent<Rigidbody2D>().drag = 0;
-        GetComponent<Rigidbody2D>().AddForce(jumpVector, ForceMode2D.Impulse);
-        jumpVector.x = x;
-        jumpVector.y = y;
-        wasJumping = true;
+        print(jumpVector.y + " " + inAir + " " + isCollidingWithWalkableGameObject());
+        if (!inAir && timePassed >= keyDelay)
+        {
+            inAir = true;
+            source.PlayOneShot(jumpSound, 1.0f);
+            GetComponent<Rigidbody2D>().drag = 0;
+            jumpVector.x = x;
+            if (bounce)
+            {
+                jumpVector.y += 25;
+                if (jumpVector.y > 50)
+                {
+                    jumpVector.y = 50;
+                }
+                anim.SetInteger("State", 5);
+            }
+            else
+            {
+                jumpVector.y = y;
+            }
+            GetComponent<Rigidbody2D>().AddForce(jumpVector, ForceMode2D.Impulse);
+            wasJumping = true;
+            timePassed = 0f;
+            print("inner:" + jumpVector.y + " " + inAir + " " + isCollidingWithWalkableGameObject());
+            ghostCharge = true;
+        }
+        else if (ghostCharge && currentForm == PlayerState.Ghost && timePassed >= keyDelay)
+        {
+            if (bounce)
+            {
+                jumpVector.y = 10;
+            }else
+            {
+                jumpVector.y = 0;
+            }
+            jumpVector.x = x * 2.5f;
+            GetComponent<Rigidbody2D>().AddForce(jumpVector, ForceMode2D.Impulse);
+            //transform.position = new Vector3(transform.position.x+(x/5), transform.position.y, 0.0f);
+            ghostCharge = false;
+            timePassed = 0f;
+        }
     }
-
+    
     private void move(float x, float y, float z)
     {
+        //print("deprecated - move(float x, float y, float z)");
         //transform.position += new Vector3(x * Time.deltaTime, y * Time.deltaTime, z * Time.deltaTime);
+        transform.position = new Vector3(x, y, z);
     }
 
     private void move(float x, float y)
@@ -476,7 +562,7 @@ public class Player : MonoBehaviour
     //Unity variables. Must be public, class scope, must not be set.
     public Transform grounded;
     public LayerMask walkable;
-    private bool isGrounded()
+    private bool isCollidingWithWalkableGameObject()
     {
         float radius = 0.05f;
         return Physics2D.OverlapCircle(grounded.transform.position, radius, walkable);

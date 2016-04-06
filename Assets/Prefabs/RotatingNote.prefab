@@ -74,6 +74,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NoteNumber: 0
+  visible: 1
   TextCanvas: {fileID: 0}
 --- !u!212 &21285896
 SpriteRenderer:

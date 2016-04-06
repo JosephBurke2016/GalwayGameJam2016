@@ -5,15 +5,15 @@ public class EndGame : MonoBehaviour {
 
     public GameObject explosionSprite;
     public Renderer rend;
-    private bool isScaling = false;
-    public float value = 5f;
-
+    public bool isScaling = false;
+    public float value = 5.0f;
+    private Vector3 zero;
 
     // Use this for initialization
     void Start () {
         rend = GetComponent<Renderer>();
         rend.enabled = false;
-
+        zero = transform.localScale;
     }
 	
 	// Update is called once per frame
@@ -27,6 +27,11 @@ public class EndGame : MonoBehaviour {
 
             transform.localScale = temp;
 
+        }else
+        {
+            transform.localScale = zero;
+            rend.enabled = false;
+            value = 5.0f;
         }
     }
 
